@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Stack — Coalition Builder for Side Projects</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  :root{
+    --bg:#0a0e14;
+    --surface:#11161f;
+    --surface-raised:#161c27;
+    --border:#222a36;
+    --text:#e6edf3;
+    --text-dim:#8b95a3;
+    --text-faint:#5b6472;
+
+    --c-frontend:#58a6ff;
+    --c-backend:#3fb950;
+    --c-database:#d29922;
+    --c-styling:#bc8cff;
+    --c-auth:#f85149;
+    --c-hosting:#39c5cf;
+
+    --warn:#d29922;
+    --info:#58a6ff;
+    --ok:#3fb950;
+
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    line-height:1.5;
+    padding:0 0 80px;
+  }
+  a{color:var(--c-frontend);}
+
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px;}
+
+  /* ---------- terminal chrome header ---------- */
+  .chrome{
+    background:var(--surface);
+    border-bottom:1px solid var(--border);
+    padding:10px 20px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .dot{width:10px;height:10px;border-radius:50%;}
+  .dot.r{background:#f85149;}
+  .dot.y{background:#d29922;}
+  .dot.g{background:#3fb950;}
+  .chrome-label{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+    margin-left:8px;
+  }
+
+  /* ---------- hero ---------- */
+  .hero{padding:48px 0 28px;}
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--c-frontend);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:clamp(28px,4vw,42px);
+    line-height:1.1;
+    margin:0 0 14px;
+    letter-spacing:-0.01em;
+  }
+  .sub{
+    color:var(--text-dim);
+    font-size:15px;
+    max-width:640px;
+    margin:0 0 6px;
+  }
+  .sub-note{
+    color:var(--text-faint);
+    font-size:13px;
+    margin:0;
+  }
+
+  /* ---------- stats panel ---------- */
+  .stats{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:24px;
+    margin:28px 0 40px;
+  }
+  .stats-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    flex-wrap:wrap;
+    gap:16px;
+    margin-bottom:20px;
+  }
+  .stat-numbers{display:flex;gap:36px;flex-wrap:wrap;}
+  .stat-block .num{
+    font-family:var(--font-display);
+    font-size:34px;
+    font-weight:700;
+    line-height:1;
+  }
+  .stat-block .label{
+    color:var(--text-dim);
+    font-size:12.5px;
+    margin-top:4px;
+  }
+  .badge{
+    font-family:var(--font-mono);
+    font-size:12px;
+    font-weight:500;
+    padding:6px 12px;
+    border-radius:999px;
+    white-space:nowrap;
+    height:fit-content;
+  }
+  .badge.ok{background:rgba(63,185,80,0.14);color:var(--ok);}
+  .badge.warn{background:rgba(210,153,34,0.14);color:var(--warn);}
+  .badge.neutral{background:rgba(139,148,158,0.14);color:var(--text-dim);}
+
+  .bar{
+    display:flex;
+    height:10px;
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--border);
+    gap:2px;
+    margin-bottom:10px;
+  }
+  .bar-seg{flex:1;border-radius:3px;background:#1c232e;transition:background .25s;}
+
+  .legend{
+    font-family:var(--font-mono);
+    font-size:12px;
+    color:var(--text-faint);
+    margin:0 0 18px;
+    flex-wrap:wrap;
+    display:flex;
+    gap:4px;
+  }
+  .legend span{transition:color .2s;}
+
+  .clear-btn{
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    font-family:var(--font-body);
+    font-size:13px;
+    padding:8px 14px;
+    border-radius:7px;
+    cursor:pointer;
+  }
+  .clear-btn:hover{border-color:var(--text-dim);color:var(--text);}
+  .clear-btn:focus-visible{outline:2px solid var(--c-frontend);outline-offset:2px;}
+
+  /* ---------- category sections ---------- */
+  .category{margin-bottom:36px;}
+  .cat-head{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    margin-bottom:12px;
+  }
+  .cat-step{
+    font-family:var(--font-mono);
+    font-size:11.5px;
+    color:var(--text-faint);
+    letter-spacing:0.08em;
+  }
+  .cat-name{
+    font-family:var(--font-display);
+    font-weight:700;
+    font-size:16px;
+    letter-spacing:0.01em;
+  }
+
+  .card-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+    gap:12px;
+  }
+  .card{
+    background:var(--surface);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    padding:14px 16px;
+    cursor:pointer;
+    text-align:left;
+    color:var(--text);
+    font-family:var(--font-body);
+    position:relative;
+    transition:border-color .15s, background .15s, transform .1s;
+  }
+  .card:hover{border-color:var(--text-faint);}
+  .card:focus-visible{outline:2px solid var(--c-frontend);outline-offset:2px;}
+  .card:active{transform:scale(0.99);}
+  .card.selected{background:var(--surface-raised);}
+  .card-name{font-weight:600;font-size:14.5px;margin-bottom:6px;padding-right:20px;}
+  .card-tag{
+    font-family:var(--font-mono);
+    font-size:11px;
+    color:var(--text-faint);
+    margin-bottom:8px;
+  }
+  .card-blurb{font-size:12.5px;color:var(--text-dim);line-height:1.4;}
+  .card-check{
+    position:absolute;top:12px;right:12px;
+    width:16px;height:16px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:#0a0e14;font-weight:700;
+    opacity:0;transition:opacity .15s;
+  }
+  .card.selected .card-check{opacity:1;}
+
+  /* ---------- review panel ---------- */
+  .review{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:22px 24px;
+    margin:8px 0 32px;
+  }
+  .review h2, .out-block h2{
+    font-family:var(--font-display);
+    font-size:16px;
+    margin:0 0 14px;
+  }
+  .review-empty{color:var(--text-faint);font-size:13.5px;}
+  .review-row{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    padding:10px 0;
+    border-top:1px solid var(--border);
+    font-size:13.5px;
+  }
+  .review-row:first-of-type{border-top:none;}
+  .review-left{color:var(--text);}
+  .review-left .layer{color:var(--text-faint);font-size:11.5px;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:2px;}
+  .review-pro, .review-con{font-size:12px;display:block;margin-top:2px;}
+  .review-pro{color:var(--ok);}
+  .review-con{color:var(--text-faint);}
+
+  .flags{margin-top:16px;}
+  .flag{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    font-size:13px;
+    padding:10px 12px;
+    border-radius:7px;
+    margin-bottom:8px;
+  }
+  .flag.warn{background:rgba(210,153,34,0.08);color:#e3b341;}
+  .flag.info{background:rgba(88,166,255,0.08);color:#79c0ff;}
+  .flag.ok{background:rgba(63,185,80,0.08);color:#56d364;}
+  .flag-icon{font-family:var(--font-mono);flex-shrink:0;}
+
+  /* ---------- output panels ---------- */
+  .outputs{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  @media (max-width:760px){.outputs{grid-template-columns:1fr;}}
+
+  .out-block{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:22px 24px;
+  }
+  .out-desc{color:var(--text-dim);font-size:13px;margin:-6px 0 14px;}
+
+  .dir-input-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:12px;
+    font-family:var(--font-mono);
+    font-size:13px;
+    color:var(--text-dim);
+  }
+  .dir-input-row input{
+    background:var(--bg);
+    border:1px solid var(--border);
+    color:var(--text);
+    font-family:var(--font-mono);
+    font-size:13px;
+    padding:6px 10px;
+    border-radius:6px;
+    width:140px;
+  }
+  .dir-input-row input:focus-visible{outline:2px solid var(--c-frontend);}
+
+  .term{
+    background:#080b10;
+    border:1px solid var(--border);
+    border-radius:8px;
+    overflow:hidden;
+  }
+  .term-bar{
+    display:flex;align-items:center;gap:6px;
+    padding:8px 12px;
+    background:#0d1117;
+    border-bottom:1px solid var(--border);
+  }
+  .term-bar .dot{width:8px;height:8px;}
+  .term-body{
+    font-family:var(--font-mono);
+    font-size:12.5px;
+    color:#9be29b;
+    padding:14px 16px;
+    white-space:pre-wrap;
+    word-break:break-word;
+    min-height:90px;
+    line-height:1.6;
+  }
+  .term-body .cursor{
+    display:inline-block;width:7px;height:13px;background:#9be29b;
+    vertical-align:middle;margin-left:1px;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+
+  .prompt-body{
+    background:#080b10;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:14px 16px;
+    font-size:13px;
+    color:var(--text-dim);
+    min-height:90px;
+    white-space:pre-wrap;
+  }
+
+  .copy-btn{
+    margin-top:12px;
+    background:transparent;
+    border:1px solid var(--border);
+    color:var(--text-dim);
+    font-family:var(--font-mono);
+    font-size:12px;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+  }
+  .copy-btn:hover{border-color:var(--text-faint);color:var(--text);}
+  .copy-btn:focus-visible{outline:2px solid var(--c-frontend);outline-offset:2px;}
+  .copy-btn.copied{color:var(--ok);border-color:var(--ok);}
+
+  @media (prefers-reduced-motion:reduce){
+    .term-body .cursor{animation:none;}
+    .card{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="chrome">
+  <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+  <div class="chrome-label">stack-builder.sh</div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <p class="eyebrow">Tech Stack Coalition Builder</p>
+    <h1>Build your own stack from the options that actually fit.</h1>
+    <p class="sub">Pick a technology for each layer of your project. We'll total up your picks, flag anything that doesn't play well together, and hand you a ready-to-paste AI prompt and install script.</p>
+    <p class="sub-note">A typical fullstack project covers all six layers below — but for a quick demo, three or four is plenty.</p>
+  </div>
+
+  <div class="stats">
+    <div class="stats-top">
+      <div class="stat-numbers">
+        <div class="stat-block">
+          <div class="num" id="numSelected">0</div>
+          <div class="label">layers selected</div>
+        </div>
+        <div class="stat-block">
+          <div class="num" id="numFlags">0</div>
+          <div class="label">flags to review</div>
+        </div>
+      </div>
+      <div class="badge neutral" id="statusBadge">Pick a layer to begin</div>
+    </div>
+    <div class="bar" id="bar"></div>
+    <div class="legend" id="legend"></div>
+    <button class="clear-btn" id="clearBtn">Clear all</button>
+  </div>
+
+  <div id="categories"></div>
+
+  <div class="review">
+    <h2>Stack review</h2>
+    <div id="reviewBody"><p class="review-empty">Select a layer above and your picks will show up here, along with anything worth double-checking.</p></div>
+  </div>
+
+  <div class="outputs">
+    <div class="out-block">
+      <h2>AI prompt</h2>
+      <p class="out-desc">Paste this into Claude (or any AI tool) to scaffold the project.</p>
+      <div class="prompt-body" id="promptBody">Pick at least one layer above to generate a prompt.</div>
+      <button class="copy-btn" id="copyPrompt">Copy prompt</button>
+    </div>
+    <div class="out-block">
+      <h2>Install script</h2>
+      <p class="out-desc">Commands to scaffold the project in a new directory.</p>
+      <div class="dir-input-row">
+        <label for="dirInput">Project folder:</label>
+        <input type="text" id="dirInput" value="my-app" maxlength="40">
+      </div>
+      <div class="term">
+        <div class="term-bar"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+        <div class="term-body" id="termBody">$ <span class="cursor"></span></div>
+      </div>
+      <button class="copy-btn" id="copyCmd">Copy script</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const STACK_ORDER = ['frontend','backend','database','styling','auth','hosting'];
+
+const STACK = {
+  frontend: { label:"Frontend", color:"var(--c-frontend)", hex:"#58a6ff", options:[
+    {id:"react-vite", name:"React + Vite", tag:"SPA", pros:["Huge ecosystem & community","Fast dev reload"], cons:["No built-in routing or SSR"], install:["npm create vite@latest {dir} -- --template react"], promptBit:"a React (Vite) single-page frontend"},
+    {id:"nextjs", name:"Next.js", tag:"SSR / fullstack", pros:["File-based routing","SSR/SSG and API routes built in"], cons:["More opinionated, slightly heavier"], install:["npx create-next-app@latest {dir}"], promptBit:"a Next.js frontend with SSR support"},
+    {id:"sveltekit", name:"SvelteKit", tag:"SPA / SSR", pros:["Very little boilerplate","Small bundle size"], cons:["Smaller ecosystem than React"], install:["npx sv create {dir}"], promptBit:"a SvelteKit frontend"},
+    {id:"vue", name:"Vue 3", tag:"SPA", pros:["Gentle learning curve","Clear documentation"], cons:["Smaller hiring pool than React"], install:["npm create vue@latest {dir}"], promptBit:"a Vue 3 frontend"},
+    {id:"vanilla", name:"Plain HTML/JS", tag:"No framework", pros:["Zero build step","Deploys anywhere instantly"], cons:["Manual DOM work as it grows"], install:["mkdir {dir} && cd {dir} && touch index.html style.css script.js"], promptBit:"a plain HTML/CSS/JS frontend with no framework"}
+  ]},
+  backend: { label:"Backend", color:"var(--c-backend)", hex:"#3fb950", options:[
+    {id:"express", name:"Node + Express", tag:"REST API", pros:["Minimal and flexible","Same language as the frontend"], cons:["You wire up the structure yourself"], install:["npm install express"], promptBit:"a Node.js + Express REST API backend"},
+    {id:"fastapi", name:"FastAPI", tag:"REST API", pros:["Auto-generated API docs","Async by default"], cons:["Python packaging can be fiddly"], install:["pip install fastapi uvicorn"], promptBit:"a Python FastAPI backend"},
+    {id:"django", name:"Django", tag:"Batteries-included", pros:["Admin panel for free","Auth and ORM built in"], cons:["Heavier than most hackathons need"], install:["pip install django && django-admin startproject {dir}"], promptBit:"a Django backend"},
+    {id:"nextapi", name:"Next.js API routes", tag:"Fullstack", pros:["Nothing extra to deploy","Shares types with the frontend"], cons:["Tied to the Next.js app"], install:["echo 'Add route files under /app/api in your Next.js project'"], promptBit:"Next.js API routes as the backend"},
+    {id:"none-backend", name:"None / BaaS only", tag:"Serverless", pros:["Nothing to deploy or scale yourself"], cons:["Less control over custom logic"], install:["echo 'No custom backend needed'"], promptBit:"no custom backend, relying on a backend-as-a-service instead"}
+  ]},
+  database: { label:"Database", color:"var(--c-database)", hex:"#d29922", options:[
+    {id:"postgres", name:"PostgreSQL", tag:"SQL", pros:["Rock-solid and ACID compliant","Wide hosting support"], cons:["Needs a schema and migrations"], install:["npm install pg"], promptBit:"a PostgreSQL database"},
+    {id:"mongo", name:"MongoDB", tag:"NoSQL", pros:["Flexible, schema-less documents"], cons:["Easy to end up with inconsistent shapes"], install:["npm install mongoose"], promptBit:"a MongoDB database"},
+    {id:"sqlite", name:"SQLite", tag:"SQL, file-based", pros:["Zero setup, single file"], cons:["Not built for concurrent multi-user load"], install:["npm install better-sqlite3"], promptBit:"a local SQLite database"},
+    {id:"supabase", name:"Supabase", tag:"Postgres + BaaS", pros:["Postgres with auth & storage included"], cons:["You're tied to their platform conventions"], install:["npm install @supabase/supabase-js"], promptBit:"Supabase as the database and backend layer"},
+    {id:"none-db", name:"None", tag:"Stateless", pros:["Nothing to host or back up"], cons:["No persistence between sessions"], install:["echo 'No database needed'"], promptBit:"no database, the app is stateless"}
+  ]},
+  styling: { label:"Styling", color:"var(--c-styling)", hex:"#bc8cff", options:[
+    {id:"tailwind", name:"Tailwind CSS", tag:"Utility-first", pros:["Fast to build with, no context switching"], cons:["Markup can get verbose"], install:["npm install -D tailwindcss postcss autoprefixer && npx tailwindcss init -p"], promptBit:"Tailwind CSS for styling"},
+    {id:"css-modules", name:"CSS Modules", tag:"Scoped CSS", pros:["Plain CSS, scoped per component"], cons:["No design system out of the box"], install:["echo 'Most modern bundlers support CSS Modules out of the box'"], promptBit:"CSS Modules for styling"},
+    {id:"styled-components", name:"styled-components", tag:"CSS-in-JS", pros:["Styles live next to components"], cons:["Small runtime cost vs static CSS"], install:["npm install styled-components"], promptBit:"styled-components for styling"},
+    {id:"plain-css", name:"Plain CSS", tag:"No tooling", pros:["No build step, no dependencies"], cons:["You manage naming collisions yourself"], install:["echo 'No styling install needed'"], promptBit:"plain hand-written CSS"}
+  ]},
+  auth: { label:"Auth", color:"var(--c-auth)", hex:"#f85149", options:[
+    {id:"clerk", name:"Clerk", tag:"Hosted", pros:["Drop-in UI components","Handles social login & MFA"], cons:["Paid past the free tier"], install:["npm install @clerk/clerk-react"], promptBit:"Clerk for authentication"},
+    {id:"nextauth", name:"NextAuth.js", tag:"Self-hosted", pros:["Free and open source"], cons:["More config than a hosted option"], install:["npm install next-auth"], promptBit:"NextAuth.js for authentication"},
+    {id:"supabase-auth", name:"Supabase Auth", tag:"Hosted", pros:["Comes free with Supabase"], cons:["Best when already using Supabase"], install:["echo 'Included with @supabase/supabase-js'"], promptBit:"Supabase Auth for authentication"},
+    {id:"none-auth", name:"None", tag:"Public app", pros:["One less system to secure"], cons:["No per-user accounts or data"], install:["echo 'No auth needed'"], promptBit:"no authentication layer"}
+  ]},
+  hosting: { label:"Hosting", color:"var(--c-hosting)", hex:"#39c5cf", options:[
+    {id:"vercel", name:"Vercel", tag:"Frontend / Next.js", pros:["Zero-config for Next.js/React"], cons:["Serverless limits on the free tier"], install:["npm install -g vercel"], promptBit:"deployment on Vercel"},
+    {id:"railway", name:"Railway", tag:"Full backend", pros:["Easy Postgres + backend together"], cons:["Free tier has usage caps"], install:["npm install -g @railway/cli"], promptBit:"deployment on Railway"},
+    {id:"netlify", name:"Netlify", tag:"Frontend / JAMstack", pros:["Great for static + serverless functions"], cons:["Less ideal for long-running servers"], install:["npm install -g netlify-cli"], promptBit:"deployment on Netlify"},
+    {id:"render", name:"Render", tag:"Full backend", pros:["Free tier for small web services"], cons:["Free services spin down when idle"], install:["echo 'Deploy via the Render dashboard'"], promptBit:"deployment on Render"}
+  ]}
+};
+
+let selections = {frontend:null, backend:null, database:null, styling:null, auth:null, hosting:null};
+let typeInterval = null;
+
+function getOpt(catKey){
+  const id = selections[catKey];
+  if(!id) return null;
+  return STACK[catKey].options.find(o=>o.id===id) || null;
+}
+
+function buildWarnings(){
+  const f = getOpt('frontend'), b = getOpt('backend'), d = getOpt('database'),
+        s = getOpt('styling'), a = getOpt('auth'), h = getOpt('hosting');
+  const flags = [];
+
+  if(b && b.id==='none-backend' && d && !['none-db','supabase'].includes(d.id)){
+    flags.push({level:'warn', msg:`${d.name} usually needs a backend (or a BaaS like Supabase) to be queried securely from the browser.`});
+  }
+  if(h && h.id==='vercel' && b && ['fastapi','django'].includes(b.id)){
+    flags.push({level:'warn', msg:`Vercel's serverless functions aren't built for long-running Python servers — Railway or Render will be smoother for ${b.name}.`});
+  }
+  if(a && a.id!=='none-auth' && b && b.id==='none-backend' && !['clerk','supabase-auth'].includes(a.id)){
+    flags.push({level:'warn', msg:`${a.name} usually needs a backend to verify sessions — pair it with one, or switch to a hosted option like Clerk or Supabase Auth.`});
+  }
+  if(f && f.id==='vanilla' && s && s.id==='tailwind'){
+    flags.push({level:'info', msg:`Plain HTML/JS + Tailwind works, but you'll want the Tailwind CLI or CDN build step since there's no bundler here.`});
+  }
+  if(d && d.id==='mongo' && b && b.id==='fastapi'){
+    flags.push({level:'info', msg:`FastAPI leans SQL by convention — for Mongo, the Motor or Beanie libraries are the usual pick over a plain driver.`});
+  }
+  if(h && h.id==='netlify' && b && ['express','fastapi','django'].includes(b.id)){
+    flags.push({level:'info', msg:`Netlify functions suit light, short-lived requests — an always-on server like ${b.name} usually fits Railway or Render better.`});
+  }
+
+  const filledCount = STACK_ORDER.filter(k=>selections[k]).length;
+  const warnCount = flags.filter(fl=>fl.level==='warn').length;
+  if(filledCount >= 3 && warnCount === 0){
+    flags.push({level:'ok', msg:'This combination looks coherent — a solid foundation to start building on.'});
+  }
+  return flags;
+}
+
+function render(){
+  renderBarAndStats();
+  renderCategories();
+  renderReview();
+  renderOutputs();
+}
+
+function renderBarAndStats(){
+  const bar = document.getElementById('bar');
+  const legend = document.getElementById('legend');
+  bar.innerHTML = '';
+  legend.innerHTML = '';
+  STACK_ORDER.forEach((key,i)=>{
+    const cat = STACK[key];
+    const filled = !!selections[key];
+    const seg = document.createElement('div');
+    seg.className = 'bar-seg';
+    seg.style.background = filled ? cat.hex : '#1c232e';
+    bar.appendChild(seg);
+
+    const item = document.createElement('span');
+    item.textContent = cat.label.charAt(0) + (i < STACK_ORDER.length-1 ? '  ·  ' : '');
+    item.style.color = filled ? cat.hex : 'var(--text-faint)';
+    legend.appendChild(item);
+  });
+
+  const filledCount = STACK_ORDER.filter(k=>selections[k]).length;
+  const flags = buildWarnings();
+  const warnCount = flags.filter(f=>f.level==='warn').length;
+
+  document.getElementById('numSelected').textContent = filledCount;
+  document.getElementById('numFlags').textContent = warnCount;
+
+  const badge = document.getElementById('statusBadge');
+  if(filledCount === 0){
+    badge.className = 'badge neutral'; badge.textContent = 'Pick a layer to begin';
+  } else if(warnCount > 0){
+    badge.className = 'badge warn'; badge.textContent = `${warnCount} flag${warnCount>1?'s':''} to resolve`;
+  } else {
+    badge.className = 'badge ok'; badge.textContent = 'Looks solid';
+  }
+}
+
+function renderCategories(){
+  const container = document.getElementById('categories');
+  container.innerHTML = '';
+  STACK_ORDER.forEach((key, idx)=>{
+    const cat = STACK[key];
+    const section = document.createElement('div');
+    section.className = 'category';
+
+    const head = document.createElement('div');
+    head.className = 'cat-head';
+    head.innerHTML = `<span class="cat-step" style="color:${cat.hex}">LAYER 0${idx+1}</span><span class="cat-name">${cat.label}</span>`;
+    section.appendChild(head);
+
+    const grid = document.createElement('div');
+    grid.className = 'card-grid';
+
+    cat.options.forEach(opt=>{
+      const card = document.createElement('button');
+      card.type = 'button';
+      const isSelected = selections[key] === opt.id;
+      card.className = 'card' + (isSelected ? ' selected' : '');
+      if(isSelected) card.style.borderColor = cat.hex;
+      card.innerHTML = `
+        <div class="card-check" style="background:${cat.hex}">✓</div>
+        <div class="card-name">${opt.name}</div>
+        <div class="card-tag">${opt.tag}</div>
+        <div class="card-blurb">${opt.pros[0]}</div>
+      `;
+      card.addEventListener('click', ()=>{
+        selections[key] = isSelected ? null : opt.id;
+        render();
+      });
+      grid.appendChild(card);
+    });
+
+    section.appendChild(grid);
+    container.appendChild(section);
+  });
+}
+
+function renderReview(){
+  const body = document.getElementById('reviewBody');
+  const filled = STACK_ORDER.filter(k=>selections[k]);
+  if(filled.length === 0){
+    body.innerHTML = '<p class="review-empty">Select a layer above and your picks will show up here, along with anything worth double-checking.</p>';
+    return;
+  }
+
+  let html = '';
+  filled.forEach(key=>{
+    const cat = STACK[key];
+    const opt = getOpt(key);
+    html += `
+      <div class="review-row">
+        <div class="review-left">
+          <span class="layer" style="color:${cat.hex}">${cat.label}</span>
+          ${opt.name}
+          <span class="review-pro">✓ ${opt.pros[0]}</span>
+          <span class="review-con">— ${opt.cons[0]}</span>
+        </div>
+      </div>
+    `;
+  });
+
+  const flags = buildWarnings();
+  if(flags.length){
+    html += '<div class="flags">';
+    flags.forEach(f=>{
+      const icon = f.level==='warn' ? '!' : f.level==='ok' ? '✓' : 'i';
+      html += `<div class="flag ${f.level}"><span class="flag-icon">${icon}</span><span>${f.msg}</span></div>`;
+    });
+    html += '</div>';
+  }
+
+  body.innerHTML = html;
+}
+
+function buildPrompt(){
+  const bits = STACK_ORDER.filter(k=>selections[k]).map(k=>getOpt(k).promptBit);
+  if(bits.length === 0) return null;
+  return `I'm starting a new project using:\n- ${bits.join('\n- ')}\n\nPlease help me scaffold the project structure, wire these pieces together, and call out any compatibility issues or setup steps I might be missing.`;
+}
+
+function buildCommand(){
+  const dir = document.getElementById('dirInput').value.trim() || 'my-app';
+  const lines = [];
+  STACK_ORDER.forEach(k=>{
+    const opt = getOpt(k);
+    if(!opt) return;
+    const cmds = opt.install.map(c=>c.replace(/{dir}/g, dir));
+    lines.push(`# ${STACK[k].label}: ${opt.name}`);
+    lines.push(...cmds);
+  });
+  if(lines.length === 0) return null;
+  return lines.join('\n');
+}
+
+function renderOutputs(){
+  const promptText = buildPrompt();
+  const promptBody = document.getElementById('promptBody');
+  promptBody.textContent = promptText || 'Pick at least one layer above to generate a prompt.';
+
+  const cmdText = buildCommand();
+  const termBody = document.getElementById('termBody');
+  if(typeInterval) clearInterval(typeInterval);
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if(!cmdText){
+    termBody.innerHTML = '$ <span class="cursor"></span>';
+    return;
+  }
+
+  const full = '$ ' + cmdText;
+  if(reducedMotion){
+    termBody.textContent = full;
+    return;
+  }
+
+  let i = 0;
+  termBody.textContent = '';
+  typeInterval = setInterval(()=>{
+    i += 3;
+    termBody.textContent = full.slice(0, i);
+    if(i >= full.length){
+      clearInterval(typeInterval);
+      termBody.innerHTML = full.replace(/\n/g,'<br>') + ' <span class="cursor"></span>';
+    }
+  }, 8);
+}
+
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  selections = {frontend:null, backend:null, database:null, styling:null, auth:null, hosting:null};
+  render();
+});
+
+document.getElementById('dirInput').addEventListener('input', renderOutputs);
+
+document.getElementById('copyPrompt').addEventListener('click', (e)=>{
+  const text = buildPrompt();
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = e.currentTarget;
+    btn.classList.add('copied'); btn.textContent = 'Copied!';
+    setTimeout(()=>{btn.classList.remove('copied'); btn.textContent = 'Copy prompt';}, 1500);
+  });
+});
+
+document.getElementById('copyCmd').addEventListener('click', (e)=>{
+  const text = buildCommand();
+  if(!text) return;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = e.currentTarget;
+    btn.classList.add('copied'); btn.textContent = 'Copied!';
+    setTimeout(()=>{btn.classList.remove('copied'); btn.textContent = 'Copy script';}, 1500);
+  });
+});
+
+render();
+</script>
+</body>
+</html>
