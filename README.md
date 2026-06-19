@@ -1,4 +1,4 @@
-# TechStacker
+# TechStacked
 
 A tech stack builder: pick a technology for each layer of your project, see pros/cons and compatibility flags, and get a ready-to-paste AI prompt plus an install script. Includes one-click presets for popular stacks (MERN, PERN, MEAN, and a couple of modern BaaS combos).
 
