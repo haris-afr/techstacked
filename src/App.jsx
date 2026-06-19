@@ -37,6 +37,7 @@ export default function App() {
 
         <div className="builder-grid">
           <div>
+            <p className="metrics-legend">P = performance · S = scalability · $ = cost efficiency — hover any bar for details</p>
             {STACK_ORDER.map((key) => (
               <CategorySection
                 key={key}

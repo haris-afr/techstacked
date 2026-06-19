@@ -1,41 +1,76 @@
 # TechStacker
 
-A tech stack builder: pick a technology for each layer of your project, see pros/cons and compatibility flags, and get a ready-to-paste AI prompt plus an install script. Includes one-click presets for popular stacks (MERN, PERN, MEAN, and a couple of modern BaaS combos).
+**Pick a stack, not a headache.**
 
-## Run it locally
+TechStacker is a quick, visual tool for choosing a tech stack for any new project. Select a technology for each layer — frontend, backend, database, styling, auth, hosting — and it shows you the trade-offs, flags anything that won't play well together, and hands you a ready-to-paste AI prompt and an install script so you can start building immediately.
+
+Built for the **Kracked Devs 4-Day Vibe-a-thon**.
+
+## The problem
+
+Developers waste hours debating frameworks and tooling before writing a single line of their actual project. TechStacker turns that decision into a two-minute click-through instead of an afternoon of research.
+
+## Features
+
+- **Six-layer picker** — Frontend, Backend, Database, Styling, Auth, Hosting, each with several real-world options.
+- **Performance / scalability / cost indicators** — every option shows three small bars (P / S / $) so you can compare trade-offs at a glance, with full detail on hover.
+- **Popular stack presets** — one-click MERN, PERN, MEAN, React + Supabase, or Next.js Full Stack.
+- **Compatibility flags** — a small rules engine warns about mismatches (e.g. a database with no backend, or a Python backend on Vercel).
+- **AI prompt generator** — turns your picks into a prompt you can paste into Claude (or any AI tool) to scaffold the project.
+- **Install script generator** — builds the actual terminal commands for your chosen stack, with an editable project folder name.
+- **Shareable link & Markdown export** — copy a link that encodes your picks, or export your stack as Markdown for a README or build thread.
+- **Surprise me** — generates a random combo if you're stuck for inspiration.
+
+## Built with
+
+- [React](https://react.dev) + [Vite](https://vitejs.dev)
+- Plain CSS, no framework — design tokens live at the top of `src/index.css`
+- [Claude](https://claude.ai) (Claude Code / claude.ai) — used to build this project itself
+
+## Getting started
 
 ```
 npm install
 npm run dev
 ```
 
-This starts a dev server (Vite will print the local URL, usually `http://localhost:5173`).
+Then open the local URL Vite prints (usually `http://localhost:5173`).
 
-## Build for production
+## Deploying
 
 ```
 npm run build
 ```
 
-Outputs static files to `dist/`. This is a plain static site — no server required.
+This produces a static `dist/` folder you can deploy to:
 
-## Deploy
+- **Vercel** — `npx vercel`, or connect the repo (auto-detects Vite)
+- **Netlify** — connect the repo, or drag `dist/` onto netlify.com/drop
+- **GitHub Pages** — push `dist/` to a `gh-pages` branch
 
-Any static host works since this is just a Vite build:
+## Project structure
 
-- **Vercel** — run `npx vercel` in this folder, or connect the repo at vercel.com. It auto-detects Vite.
-- **Netlify** — connect the repo at netlify.com, or run `npm run build` and drag the `dist/` folder onto netlify.com/drop.
-- **GitHub Pages** — run `npm run build`, then deploy the `dist/` folder to the `gh-pages` branch (or use the `gh-pages` npm package to automate it).
+| Path | What's there |
+|---|---|
+| `src/data/stackData.js` | Every tech option (including its P/S/$ ratings) and the preset stacks |
+| `src/utils/warnings.js` | The compatibility rules engine |
+| `src/hooks/useStackBuilder.js` | All app state and derived logic (selections, prompt/script/markdown text) |
+| `src/components/` | UI pieces — cards, panels, buttons — each one small and self-contained |
+| `src/index.css` | Colors, fonts, layout — the Frosted Aura design tokens live at the top |
 
-## Where things live
+## Status
 
-- `src/data/stackData.js` — every tech option (name, pros/cons, install command, AI prompt phrasing) and the preset stacks (MERN, PERN, etc.). Add a new option by copying an existing entry in the right category's array. Add a new preset by adding an object to `PRESETS`.
-- `src/utils/warnings.js` — the compatibility rules engine. Add a new rule as another `if` block that pushes a `{ level, msg }` object.
-- `src/hooks/useStackBuilder.js` — all the app's state and logic (selections, presets, generated prompt/script/markdown text). The components below just render this.
-- `src/components/` — one file per UI piece (cards, panels, buttons). Each is small and self-contained.
-- `src/index.css` — all colors, fonts, and layout. The Frosted Aura palette and type choices are CSS variables at the top of the file — change them there to retheme everything at once.
+🚧 **In progress** — the core builder, presets, comparison indicators, and generators are all working. Still to come: a demo video, a deployed live link, and the final build-thread writeup.
 
-## Notes
+Vibe-a-thon submission checklist:
 
-- No backend or database is used — everything (your picks, the generated prompt, the install script) is computed client-side from `stackData.js`.
-- The "Copy share link" button encodes your picks into the URL hash so you can share a specific combo. This requires a normal browser tab; it's disabled gracefully in sandboxed preview environments.
+- [x] Project name
+- [x] One-sentence problem statement
+- [ ] Demo video (2–3 minutes)
+- [ ] Live product link or GitHub repository
+- [ ] Link to build thread
+- [x] AI tools used (Claude)
+
+## License
+
+Built for a hackathon — use it, fork it, riff on it.
