@@ -1,4 +1,4 @@
-# TechStacker
+# TechStacked
 
 **Pick a stack, not a headache.**
 
