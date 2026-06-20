@@ -1,4 +1,4 @@
-# TechStacked
+# TechStacker
 
 **Pick a stack, not a headache.**
 
@@ -12,7 +12,8 @@ Developers waste hours debating frameworks and tooling before writing a single l
 
 ## Features
 
-- **Six-layer picker** — Frontend, Backend, Database, Styling, Auth, Hosting, each with several real-world options.
+- **Six-layer picker** — Frontend, Backend, Database, Styling, Auth, Hosting, each with several real-world options, shown with their technology logos.
+- **Dark mode** — toggle in the top right; follows your system preference by default and remembers your choice.
 - **Performance / scalability / cost indicators** — every option shows three small bars (P / S / $) so you can compare trade-offs at a glance, with full detail on hover.
 - **Popular stack presets** — one-click MERN, PERN, MEAN, React + Supabase, or Next.js Full Stack.
 - **Compatibility flags** — a small rules engine warns about mismatches (e.g. a database with no backend, or a Python backend on Vercel).
@@ -24,7 +25,8 @@ Developers waste hours debating frameworks and tooling before writing a single l
 ## Built with
 
 - [React](https://react.dev) + [Vite](https://vitejs.dev)
-- Plain CSS, no framework — design tokens live at the top of `src/index.css`
+- [react-icons](https://react-icons.github.io/react-icons) (Simple Icons set) for technology logos
+- Plain CSS, no framework — design tokens (including the dark theme) live at the top of `src/index.css`
 - [Claude](https://claude.ai) (Claude Code / claude.ai) — used to build this project itself
 
 ## Getting started
@@ -53,8 +55,10 @@ This produces a static `dist/` folder you can deploy to:
 | Path | What's there |
 |---|---|
 | `src/data/stackData.js` | Every tech option (including its P/S/$ ratings) and the preset stacks |
+| `src/data/icons.js` | Maps each option id to its logo icon — add a line here when you add a new tech option |
 | `src/utils/warnings.js` | The compatibility rules engine |
 | `src/hooks/useStackBuilder.js` | All app state and derived logic (selections, prompt/script/markdown text) |
+| `src/hooks/useTheme.js` | Dark/light mode state, persisted to localStorage |
 | `src/components/` | UI pieces — cards, panels, buttons — each one small and self-contained |
 | `src/index.css` | Colors, fonts, layout — the Frosted Aura design tokens live at the top |
 

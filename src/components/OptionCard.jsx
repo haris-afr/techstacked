@@ -1,3 +1,5 @@
+import { ICONS } from '../data/icons';
+
 const METRICS = [
   { key: 'performance', label: 'P', name: 'Performance' },
   { key: 'scalability', label: 'S', name: 'Scalability' },
@@ -15,10 +17,15 @@ function MetricBar({ value }) {
 }
 
 export default function OptionCard({ option, selected, onSelect }) {
+  const Icon = ICONS[option.id];
+
   return (
     <button type="button" className={`card${selected ? ' selected' : ''}`} onClick={onSelect}>
       <div className="card-check">✓</div>
-      <div className="card-name">{option.name}</div>
+      <div className="card-name">
+        {Icon && <Icon className="tech-icon" aria-hidden="true" />}
+        <span>{option.name}</span>
+      </div>
       <div className="card-tag">{option.tag}</div>
       <div className="card-blurb">{option.pros[0]}</div>
 

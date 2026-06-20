@@ -1,4 +1,5 @@
 import { STACK, STACK_ORDER, getOption } from '../data/stackData';
+import { ICONS } from '../data/icons';
 import CopyButton from './CopyButton';
 
 export default function ReviewPanel({ selections, flags, markdownText }) {
@@ -14,10 +15,14 @@ export default function ReviewPanel({ selections, flags, markdownText }) {
         <>
           {filled.map((key) => {
             const opt = getOption(key, selections[key]);
+            const Icon = ICONS[opt.id];
             return (
               <div className="review-row" key={key}>
                 <span className="layer">{STACK[key].label}</span>
-                {opt.name}
+                <span className="review-name">
+                  {Icon && <Icon className="tech-icon-sm" aria-hidden="true" />}
+                  {opt.name}
+                </span>
                 <span className="review-pro">✓ {opt.pros[0]}</span>
                 <span className="review-con">— {opt.cons[0]}</span>
               </div>

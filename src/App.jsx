@@ -1,4 +1,5 @@
 import { useStackBuilder } from './hooks/useStackBuilder';
+import { useTheme } from './hooks/useTheme';
 import { STACK, STACK_ORDER } from './data/stackData';
 import Blobs from './components/Blobs';
 import Hero from './components/Hero';
@@ -8,8 +9,10 @@ import StatsPanel from './components/StatsPanel';
 import ReviewPanel from './components/ReviewPanel';
 import PromptPanel from './components/PromptPanel';
 import ScriptPanel from './components/ScriptPanel';
+import { FiSun, FiMoon } from 'react-icons/fi';
 
 export default function App() {
+  const { theme, toggleTheme } = useTheme();
   const {
     selections,
     toggleOption,
@@ -30,7 +33,18 @@ export default function App() {
     <>
       <Blobs />
       <div className="page">
-        <div className="nav"><span className="dot-accent" />TechStacker</div>
+        <div className="nav">
+          <span className="nav-brand"><span className="dot-accent" />TechStacker</span>
+          <button
+            type="button"
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? <FiSun /> : <FiMoon />}
+          </button>
+        </div>
 
         <Hero />
         <PresetBar onApply={applyPreset} />
