@@ -13,6 +13,7 @@ Developers waste hours debating frameworks and tooling before writing a single l
 ## Features
 
 - **Six-layer picker** — Frontend, Backend, Database, Styling, Auth, Hosting, each with several real-world options, shown with their technology logos.
+- **Docker support** — generates a Dockerfile for your backend (or frontend, if you skip the backend), plus a docker-compose.yml that wires up Postgres or MongoDB when one is selected.
 - **Dark mode** — toggle in the top right; follows your system preference by default and remembers your choice.
 - **Performance / scalability / cost indicators** — every option shows three small bars (P / S / $) so you can compare trade-offs at a glance, with full detail on hover.
 - **Popular stack presets** — one-click MERN, PERN, MEAN, React + Supabase, or Next.js Full Stack.
@@ -56,6 +57,7 @@ This produces a static `dist/` folder you can deploy to:
 |---|---|
 | `src/data/stackData.js` | Every tech option (including its P/S/$ ratings) and the preset stacks |
 | `src/data/icons.js` | Maps each option id to its logo icon — add a line here when you add a new tech option |
+| `src/data/docker.js` | Dockerfile templates per option, and compose service definitions for self-hostable databases |
 | `src/utils/warnings.js` | The compatibility rules engine |
 | `src/hooks/useStackBuilder.js` | All app state and derived logic (selections, prompt/script/markdown text) |
 | `src/hooks/useTheme.js` | Dark/light mode state, persisted to localStorage |

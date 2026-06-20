@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { STACK, STACK_ORDER, getOption } from '../data/stackData';
 import { buildWarnings } from '../utils/warnings';
+import { buildDocker } from '../utils/docker';
 
 const EMPTY = STACK_ORDER.reduce((acc, k) => ({ ...acc, [k]: null }), {});
 
@@ -98,6 +99,8 @@ export function useStackBuilder() {
     return lines.join('\n');
   }, [selections, flags]);
 
+  const dockerOutput = useMemo(() => buildDocker(selections), [selections]);
+
   return {
     selections,
     toggleOption,
@@ -110,6 +113,9 @@ export function useStackBuilder() {
     promptText,
     commandText,
     markdownText,
+    dockerfileText: dockerOutput.dockerfile,
+    composeText: dockerOutput.compose,
+    dockerNote: dockerOutput.note,
     dir,
     setDir,
   };

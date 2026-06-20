@@ -9,6 +9,7 @@ import StatsPanel from './components/StatsPanel';
 import ReviewPanel from './components/ReviewPanel';
 import PromptPanel from './components/PromptPanel';
 import ScriptPanel from './components/ScriptPanel';
+import DockerPanel from './components/DockerPanel';
 import { FiSun, FiMoon } from 'react-icons/fi';
 
 export default function App() {
@@ -25,6 +26,9 @@ export default function App() {
     promptText,
     commandText,
     markdownText,
+    dockerfileText,
+    composeText,
+    dockerNote,
     dir,
     setDir,
   } = useStackBuilder();
@@ -68,6 +72,7 @@ export default function App() {
             <ReviewPanel selections={selections} flags={flags} markdownText={markdownText} />
             <PromptPanel promptText={promptText} />
             <ScriptPanel commandText={commandText} dir={dir} onDirChange={setDir} />
+            <DockerPanel dockerfileText={dockerfileText} composeText={composeText} dockerNote={dockerNote} />
           </aside>
         </div>
       </div>
