@@ -71,8 +71,8 @@ Vibe-a-thon submission checklist:
 - [x] Project name
 - [x] One-sentence problem statement
 - [ ] Demo video (2–3 minutes)
-- [ ] Live product link or GitHub repository
-- [ ] Link to build thread
+- [x] Live product link or GitHub repository
+- [x] Link to build thread
 - [x] AI tools used (Claude)
 
 ## License
