@@ -288,6 +288,20 @@ aside{position:sticky;top:24px;display:flex;flex-direction:column;gap:18px;}
 .review-row:first-of-type{border-top:none;padding-top:2px;}
 .review-row .layer{color:var(--grey);font-size:11px;text-transform:uppercase;letter-spacing:0.05em;display:block;margin-bottom:2px;}
 .review-name{display:inline-flex;align-items:center;gap:6px;}
+
+.lang-list{display:flex;flex-direction:column;gap:8px;}
+.lang-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.lang-pill{
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  font-weight:500;
+  color:var(--steel-dark);
+  background:rgba(92,126,143,0.12);
+  padding:3px 9px;
+  border-radius:6px;
+  flex-shrink:0;
+}
+.lang-sources{font-size:12px;color:var(--ink-soft);}
 .review-pro,.review-con{display:block;font-size:11.5px;margin-top:2px;}
 .review-pro{color:var(--steel-dark);}
 .review-con{color:var(--grey);}

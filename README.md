@@ -13,6 +13,7 @@ Developers waste hours debating frameworks and tooling before writing a single l
 ## Features
 
 - **Six-layer picker** — Frontend, Backend, Database, Styling, Auth, Hosting, each with several real-world options, shown with their technology logos.
+- **Languages panel** — shows which programming languages your current picks actually involve (e.g. JavaScript, TypeScript, Python, SQL), grouped by which layer brought each one in.
 - **Docker support** — generates a Dockerfile for your backend (or frontend, if you skip the backend), plus a docker-compose.yml that wires up Postgres or MongoDB when one is selected.
 - **Dark mode** — toggle in the top right; follows your system preference by default and remembers your choice.
 - **Performance / scalability / cost indicators** — every option shows three small bars (P / S / $) so you can compare trade-offs at a glance, with full detail on hover.
@@ -59,6 +60,7 @@ This produces a static `dist/` folder you can deploy to:
 | `src/data/icons.js` | Maps each option id to its logo icon — add a line here when you add a new tech option |
 | `src/data/docker.js` | Dockerfile templates per option, and compose service definitions for self-hostable databases |
 | `src/utils/warnings.js` | The compatibility rules engine |
+| `src/utils/languages.js` | Derives which programming languages the current picks involve |
 | `src/hooks/useStackBuilder.js` | All app state and derived logic (selections, prompt/script/markdown text) |
 | `src/hooks/useTheme.js` | Dark/light mode state, persisted to localStorage |
 | `src/components/` | UI pieces — cards, panels, buttons — each one small and self-contained |

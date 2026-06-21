@@ -6,6 +6,7 @@ import Hero from './components/Hero';
 import PresetBar from './components/PresetBar';
 import CategorySection from './components/CategorySection';
 import StatsPanel from './components/StatsPanel';
+import LanguagesPanel from './components/LanguagesPanel';
 import ReviewPanel from './components/ReviewPanel';
 import PromptPanel from './components/PromptPanel';
 import ScriptPanel from './components/ScriptPanel';
@@ -30,6 +31,7 @@ export default function App() {
     dockerfileText,
     composeText,
     dockerNote,
+    languages,
     dir,
     setDir,
   } = useStackBuilder();
@@ -70,6 +72,7 @@ export default function App() {
 
           <aside>
             <StatsPanel filledCount={filledCount} warnCount={warnCount} onRandomize={randomize} onClear={clearAll} />
+            <LanguagesPanel languages={languages} />
             <ReviewPanel selections={selections} flags={flags} markdownText={markdownText} />
             <PromptPanel promptText={promptText} />
             <ScriptPanel commandText={commandText} dir={dir} onDirChange={setDir} />

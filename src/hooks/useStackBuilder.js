@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { STACK, STACK_ORDER, getOption } from '../data/stackData';
 import { buildWarnings } from '../utils/warnings';
 import { buildDocker } from '../utils/docker';
+import { getLanguages } from '../utils/languages';
 
 const EMPTY = STACK_ORDER.reduce((acc, k) => ({ ...acc, [k]: null }), {});
 
@@ -100,6 +101,7 @@ export function useStackBuilder() {
   }, [selections, flags]);
 
   const dockerOutput = useMemo(() => buildDocker(selections), [selections]);
+  const languages = useMemo(() => getLanguages(selections), [selections]);
 
   return {
     selections,
@@ -116,6 +118,7 @@ export function useStackBuilder() {
     dockerfileText: dockerOutput.dockerfile,
     composeText: dockerOutput.compose,
     dockerNote: dockerOutput.note,
+    languages,
     dir,
     setDir,
   };
