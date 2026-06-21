@@ -10,6 +10,7 @@ import ReviewPanel from './components/ReviewPanel';
 import PromptPanel from './components/PromptPanel';
 import ScriptPanel from './components/ScriptPanel';
 import DockerPanel from './components/DockerPanel';
+import Footer from './components/Footer';
 import { FiSun, FiMoon } from 'react-icons/fi';
 
 export default function App() {
@@ -75,6 +76,8 @@ export default function App() {
             <DockerPanel dockerfileText={dockerfileText} composeText={composeText} dockerNote={dockerNote} />
           </aside>
         </div>
+
+        <Footer />
       </div>
     </>
   );

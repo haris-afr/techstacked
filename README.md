@@ -66,7 +66,7 @@ This produces a static `dist/` folder you can deploy to:
 
 ## Status
 
-🚧 **In progress** — the core builder, presets, comparison indicators, and generators are all working. Still to come: a demo video, a deployed live link, and the final build-thread writeup.
+✅ **Complete** — every feature is built and verified working: the six-layer picker, presets, performance/scalability/cost ratings, technology icons, compatibility flags, AI prompt generator, install script generator, Docker support, and dark mode.
 
 Vibe-a-thon submission checklist:
 

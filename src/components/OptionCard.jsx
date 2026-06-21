@@ -27,7 +27,7 @@ export default function OptionCard({ option, selected, onSelect }) {
         <span>{option.name}</span>
       </div>
       <div className="card-tag">{option.tag}</div>
-      <div className="card-blurb">{option.pros[0]}</div>
+      <div className="card-blurb">{option.blurb}</div>
 
       {option.ratings && (
         <div className="metric-row">
